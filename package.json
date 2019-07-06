@@ -5,7 +5,7 @@
 	"version": "0.0.1",
 	"publisher": "SmellyCharlie",
 	"repository": "https://github.com/SmellyCharlie/clipcode-vsc",
-	"icon": "https://github.com/SmellyCharlie/clipcode-vsc/raw/master/icon.png",
+	"icon": "icon.png",
 	"engines": {
 		"vscode": "^1.35.0"
 	},
