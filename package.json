@@ -2,7 +2,7 @@
 	"name": "clipcode",
 	"displayName": "clipcode",
 	"description": "Send code to clipco.de",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "SmellyCharlie",
 	"repository": "https://github.com/SmellyCharlie/clipcode-vsc",
 	"icon": "icon.png",
