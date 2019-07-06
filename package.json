@@ -3,6 +3,9 @@
 	"displayName": "clipcode",
 	"description": "Send code to clipco.de",
 	"version": "0.0.1",
+	"publisher": "SmellyCharlie",
+	"repository": "https://github.com/SmellyCharlie/clipcode-vsc",
+	"icon": "https://github.com/SmellyCharlie/clipcode-vsc/raw/master/icon.png",
 	"engines": {
 		"vscode": "^1.35.0"
 	},
@@ -22,7 +25,7 @@
 		],
 		"keybindings": {
 			"command": "extension.clipcode",
-			"key": "Cmd+L P"
+			"key": "Ctrl+L P"
 		}
 	},
 	"scripts": {
@@ -36,7 +39,7 @@
 		"@types/glob": "^7.1.1",
 		"@types/mocha": "^5.2.6",
 		"@types/node": "^10.12.21",
-		"@types/vscode": "^1.36.0",
+		"@types/vscode": "^1.35.0",
 		"glob": "^7.1.4",
 		"mocha": "^6.1.4",
 		"tslint": "^5.12.1",
