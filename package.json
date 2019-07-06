@@ -25,7 +25,8 @@
 		],
 		"keybindings": {
 			"command": "extension.clipcode",
-			"key": "Ctrl+L P"
+			"key": "Ctrl+Shift+C",
+			"mac": "Cmd+L P"
 		}
 	},
 	"scripts": {
