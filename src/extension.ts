@@ -1,27 +1,54 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from 'vscode';
+import { commands, window, env, ExtensionContext } from 'vscode'
+import * as queryString from 'query-string'
+import nodeFetch from 'node-fetch'
+import { showQuickPick } from './quick-pick'
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+const url = 'https://clipco.de/%'
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "clipcode" is now active!');
+export function activate(context: ExtensionContext) {
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	let disposable = vscode.commands.registerCommand('extension.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
+	context.subscriptions.push(commands.registerCommand('extension.clipcode', async () => {
 
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World!');
-	});
+		let editor = window.activeTextEditor
 
-	context.subscriptions.push(disposable);
+		if (editor) {
+			try {
+				const document = editor.document
+				const selection = editor.selection
+				const language = document.languageId
+				let word = document.getText(selection)
+				console.log(word)
+				// if ((selection.start.line === selection.end.line) && (selection.start.character === selection.end.character)) {
+				if (!word) {
+					if (await showQuickPick() === 'Cancel') {
+						return;
+					}
+					word = document.getText()
+				}
+
+				const payload = { code: word, language: language }
+				const postUrl = `${url.replace('%', 'upload.php')}`
+				const res = await nodeFetch(postUrl, {
+					method: 'POST',
+					headers: {
+						'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.157 Safari/537.36',
+						'Accept-Encoding': 'gzip, deflate',
+						'Connection': 'keep-alive',
+						'Content-Type': 'application/x-www-form-urlencoded',
+					},
+					body: queryString.stringify(payload)
+				})
+				const resText = await res.text()
+				const pasteUrl = `${url.replace('%', resText)}`
+
+				await env.clipboard.writeText(pasteUrl)
+				window.showInformationMessage(`${pasteUrl} copied to clipboard.`)
+			}
+			catch (error) {
+				window.showErrorMessage(`Something broke: ${error}`)
+			}
+		}
+	}));
 }
 
-// this method is called when your extension is deactivated
-export function deactivate() {}
+export function deactivate() { }
